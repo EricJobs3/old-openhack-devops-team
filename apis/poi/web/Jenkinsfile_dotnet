@@ -9,17 +9,17 @@ pipeline {
                 echo 'Building docker image'
                 dir('apis/poi/web') {
                 	sh 'pwd'
-                	sh 'sudo docker build -t willido/poi:1.0 .'
+                	sh 'docker build -t ericjobs/poi:1.0 .'
 		}
             }
         }
         stage('Upload Docker Image') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'willido_dockerhub', passwordVariable: 'dockerPwd', usernameVariable: 'dockerUsr')]) {
+                withCredentials([usernamePassword(credentialsId: 'ericjobs3_dockerhub', passwordVariable: 'dockerPwd', usernameVariable: 'dockerUsr')]) {
                     // some block
                     echo 'Dockerhub Login'
-                    sh 'sudo docker login -u $dockerUsr -p $dockerPwd'
-                    sh 'sudo docker push willido/poi:1.0'
+                    sh 'docker login -u $dockerUsr -p $dockerPwd'
+                    sh 'docker push ericjobso/poi:1.0'
                 }
             }
         }
