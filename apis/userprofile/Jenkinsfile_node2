@@ -9,7 +9,7 @@ pipeline {
                 echo 'Building docker image'
                 dir('apis/userprofile/') {
                 	sh 'pwd'
-                	sh 'sudo docker build -t ericjobs/userprofile:2.0 .'
+                	sh 'docker build -t ericjobs/userprofile:2.0 .'
 		}
             }
         }
@@ -18,8 +18,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'ericjobs3_dockerhub', passwordVariable: 'dockerPwd', usernameVariable: 'dockerUsr')]) {
                     // some block
                     echo 'Dockerhub Login'
-                    sh 'sudo docker login -u $dockerUsr -p $dockerPwd'
-                    sh 'sudo docker push willido/userprofile:2.0'
+                    sh 'docker login -u $dockerUsr -p $dockerPwd'
+                    sh 'docker push ericjobs/userprofile:2.0'
                 }
             }
         }
