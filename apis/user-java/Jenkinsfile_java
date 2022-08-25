@@ -12,6 +12,7 @@ pipeline {
       ImgName = "ericjobs/user-java"
       ImgTag = "${params.ImgTag}"
       WorkDir = "apis/user-java"
+      DOCKERHUB_CREDENTIALS = credentials('ericjobs3_dockerhub')
     }
 
     stages {
@@ -29,10 +30,11 @@ pipeline {
   		expression {return params.blUploadImg}
 	    }
 	    steps {
-                withCredentials([usernamePassword(credentialsId: 'ericjobs3_dockerhub', passwordVariable: 'dockerPwd', usernameVariable: 'dockerUsr')]) {
+                // withCredentials([usernamePassword(credentialsId: 'ericjobs3_dockerhub', passwordVariable: 'dockerPwd', usernameVariable: 'dockerUsr')]) {
                     // some block
 		    echo 'Dockerhub Login'
-                    sh 'sudo docker login -u $dockerUsr -p $dockerPwd'
+                    // sh 'sudo docker login -u $dockerUsr -p $dockerPwd'
+		    sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
 		    sh "sudo docker push ${ImgName}:${params.ImgTag}"
                 }
             }
